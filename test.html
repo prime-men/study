@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    #quiz-container {
+      display: none;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="start-container">
+    <h1>計算機システム　語句クイズ</h1>
+    <button id="start-button">Start</button>
+  </div>
+
+  <div id="quiz-container">
+    <h2 id="question"></h2>
+    <input type="text" id="answer" placeholder="答えを入力" />
+    <button id="submit-button">Submit</button>
+    <p id="feedback" class="hidden"></p>
+    <button id="next-button" class="hidden">Next</button>
+  </div>
+
+  <div id="result-container" class="hidden">
+    <h2>Quiz Results</h2>
+    <p id="result"></p>
+    <button id="restart-button">Play Again</button>
+  </div>
+
+  <script>
+    const questions = [
+      { question: " パイプラインの停止を引き起こす事象を何という？", answer: "ハザード" },
+      { question: "単位時間あたりに終了する処理量（命令数）", answer: "スループット" },
+      { question: "Eステージの結果を、Wステージを経ることなく、Eステージに戻すこと", answer: "フォワーディング" },
+      { question: "ハザードを解消するために命令の順番を入れ替えること", answer: "命令スケジューリング" }
+    ];
+
+    let currentQuestionIndex = 0;
+    let shuffledQuestions = [];
+    let score = 0;
+
+    const startContainer = document.getElementById("start-container");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultContainer = document.getElementById("result-container");
+    const questionElement = document.getElementById("question");
+    const answerInput = document.getElementById("answer");
+    const feedbackElement = document.getElementById("feedback");
+    const nextButton = document.getElementById("next-button");
+    const resultElement = document.getElementById("result");
+
+    document.getElementById("start-button").addEventListener("click", startQuiz);
+    document.getElementById("submit-button").addEventListener("click", checkAnswer);
+    nextButton.addEventListener("click", loadNextQuestion);
+    document.getElementById("restart-button").addEventListener("click", restartQuiz);
+
+    function startQuiz() {
+      shuffledQuestions = questions.sort(() => Math.random() - 0.5);
+      currentQuestionIndex = 0;
+      score = 0;
+      startContainer.style.display = "none";
+      quizContainer.style.display = "block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      feedbackElement.classList.add("hidden");
+      nextButton.classList.add("hidden");
+      answerInput.value = "";
+      questionElement.textContent = shuffledQuestions[currentQuestionIndex].question;
+    }
+
+    function checkAnswer() {
+      const userAnswer = answerInput.value.trim();
+      const correctAnswer = shuffledQuestions[currentQuestionIndex].answer;
+      if (userAnswer === correctAnswer) {
+        feedbackElement.textContent = `正解! こたえは ${correctAnswer}だね！`;
+        score++;
+      } else {
+        feedbackElement.textContent = `ちがうよ。 こたえは ${correctAnswer}`;
+      }
+      feedbackElement.classList.remove("hidden");
+      nextButton.classList.remove("hidden");
+    }
+
+    function loadNextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < shuffledQuestions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      quizContainer.style.display = "none";
+      resultContainer.classList.remove("hidden");
+      resultElement.textContent = `正解数は${shuffledQuestions.length}点中${score}点！`;
+    }
+
+    function restartQuiz() {
+      resultContainer.classList.add("hidden");
+      startContainer.style.display = "block";
+    }
+  </script>
+</body>
+</html>
