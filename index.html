@@ -54,10 +54,14 @@
 
   <script>
     const questions = [
-      { question: "What is 2 + 2?", answer: "4" },
-      { question: "What is 5 - 3?", answer: "2" },
-      { question: "What is 10 / 2?", answer: "5" },
-      { question: "What is 3 * 3?", answer: "9" }
+    { question: " パイプラインの停止を引き起こす事象を何という？", answer: "ハザード" },
+    { question: "単位時間あたりに終了する処理量（命令数）", answer: "スループット" },
+    { question: "Eステージの結果を、Wステージを経ることなく、Eステージに戻すこと", answer: "フォワーディング" },
+    { question: "ハザードを解消するために命令の順番を入れ替えること", answer: "命令スケジューリング" },
+    { question: "What is 2 + 2?", answer: "4" },
+    { question: "What is 5 - 3?", answer: "2" },
+    { question: "What is 10 / 2?", answer: "5" },
+    { question: "What is 3 * 3?", answer: "9" }
     ];
 
     let currentQuestionIndex = 0;
@@ -98,10 +102,10 @@
       const userAnswer = answerInput.value.trim();
       const correctAnswer = shuffledQuestions[currentQuestionIndex].answer;
       if (userAnswer === correctAnswer) {
-        feedbackElement.textContent = `Correct! The answer is ${correctAnswer}.`;
+        feedbackElement.textContent = `正解! こたえは ${correctAnswer}だね！`;
         score++;
       } else {
-        feedbackElement.textContent = `Incorrect. The correct answer is ${correctAnswer}.`;
+        feedbackElement.textContent = `ちがうよ。 こたえは ${correctAnswer}`;
       }
       feedbackElement.classList.remove("hidden");
       nextButton.classList.remove("hidden");
