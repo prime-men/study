@@ -34,13 +34,13 @@
 </head>
 <body>
   <div id="start-container">
-    <h1>計算機システム　語句クイズ</h1>
+    <h1>計算機システム　語句クイズ！</h1>
     <button id="start-button">Start</button>
   </div>
 
   <div id="quiz-container">
     <h2 id="question"></h2>
-    <input type="text" id="answer" placeholder="答えを入力" />
+    <input type="text" id="answer" placeholder="Enter your answer" />
     <button id="submit-button">Submit</button>
     <p id="feedback" class="hidden"></p>
     <button id="next-button" class="hidden">Next</button>
@@ -54,10 +54,10 @@
 
   <script>
     const questions = [
-      { question: " パイプラインの停止を引き起こす事象を何という？", answer: "ハザード" },
-      { question: "単位時間あたりに終了する処理量（命令数）", answer: "スループット" },
-      { question: "Eステージの結果を、Wステージを経ることなく、Eステージに戻すこと", answer: "フォワーディング" },
-      { question: "ハザードを解消するために命令の順番を入れ替えること", answer: "命令スケジューリング" }
+      { question: "What is 2 + 2?", answer: "4" },
+      { question: "What is 5 - 3?", answer: "2" },
+      { question: "What is 10 / 2?", answer: "5" },
+      { question: "What is 3 * 3?", answer: "9" }
     ];
 
     let currentQuestionIndex = 0;
@@ -98,10 +98,10 @@
       const userAnswer = answerInput.value.trim();
       const correctAnswer = shuffledQuestions[currentQuestionIndex].answer;
       if (userAnswer === correctAnswer) {
-        feedbackElement.textContent = `正解! こたえは ${correctAnswer}だね！`;
+        feedbackElement.textContent = `Correct! The answer is ${correctAnswer}.`;
         score++;
       } else {
-        feedbackElement.textContent = `ちがうよ。 こたえは ${correctAnswer}`;
+        feedbackElement.textContent = `Incorrect. The correct answer is ${correctAnswer}.`;
       }
       feedbackElement.classList.remove("hidden");
       nextButton.classList.remove("hidden");
@@ -119,7 +119,7 @@
     function showResults() {
       quizContainer.style.display = "none";
       resultContainer.classList.remove("hidden");
-      resultElement.textContent = `正解数は${shuffledQuestions.length}点中${score}点！`;
+      resultElement.textContent = `You answered ${score} out of ${shuffledQuestions.length} questions correctly.`;
     }
 
     function restartQuiz() {
