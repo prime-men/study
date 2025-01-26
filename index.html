@@ -49,39 +49,43 @@
   <div id="result-container" class="hidden">
     <h2>Quiz Results</h2>
     <p id="result"></p>
+    <h3>間違えた問題</h3>
+    <ul id="incorrect-questions"></ul>
     <button id="restart-button">Play Again</button>
   </div>
 
   <script>
     const questions = [
-    { question: "Eステージの結果を、Wステージを経ることなく、Eステージに戻すこと", answer: "フォワーディング" },
-    { question: "ハザードを解消するために命令の順番を入れ替えること", answer: "命令スケジューリング" },
-    { question: "高速小容量メモリと低速大容量メモリを組み合わせて実質的に高速大容量メモリを実現する技術", answer: "記憶階層" },
-    { question: "詳細な機構を意識せずに効率の良いプログラムを書くことができるハードウェアの持つ性質", answer: "透過性" },
-    { question: "記憶階層の最上位にある高速小容量のメモリで、CPUと同じ速度で動作", answer: "キャッシュ" },
-    { question: "ストア命令実行のたびにキャッシュとメモリの両方にデータを書き込む方式", answer: "ライトスルー方式" },
-    { question: "キャッシュライン追い出しの時にメモリにデータを書き込む方式", answer: "ライトバック方式" },
-    { question: "ある一つのアドレスが特定の一つのキャッシュラインに対応する方式", answer: "ダイレクトマップ形" },
-    { question: "ある一つのアドレスが全部のキャッシュラインに対応する方式", answer: "フルアソシアティブ形" },
-    { question: "ある一つのアドレスが特定の複数のキャッシュラインに対応する方式", answer: " セットアソシアティブ形" },
-    { question: "主記憶よりも大きなメモリ空間を実現し、複数のプログラムが一つの物理記憶を安全に共有するための技術 ", answer: "仮想記憶" },
-    { question: "ページが主記憶に入っていないこと", answer: "ページフォルト" },
-    { question: "ページテーブル専用のキャッシュ（英語３文字）", answer: "TLB" },
-    { question: "1命令中に複数の演算を入れて、複数の演算器により並列実行する", answer: "VLIW" },
-    { question: "逐次プログラムを並列実行する", answer: "スーパースカラ" },
-    { question: "プロセッサを効率良く動かすために、あらかじめ機械語プログラムを最適化しておくこと", answer: "静的最適化" },
-    { question: "定数回のループを展開して分岐命令を無くしたり、データ依存関係を解消したりするコンパイラ技術", answer: "ループアンローリング" },
-    { question: "繰り返しの境界を越えて命令を移動し、データ依存関係を解消するコンパイラ技術", answer: "ソフトウェアパイプライニング" },
-    { question: "分岐予測をして複数の基本ブロックを統合し、制御依存を減らす方法", answer: "トレーススケジューリング" },
-    { question: "レジスタ番号の置き換えによって、逆依存、出力依存をなくし、並列性を向上させる手法", answer: "レジスタリネーミング" },
-    { question: "命令にあらわれる論理レジスタアドレスを物理レジスタアドレスに変換する", answer: "マッピングテーブル" },
-    { question: "連想機構をもつメモリによってレジスタリネーミングを実現する機構", answer: "リオーダバッファ" },
-    { question: "単位時間に終了する処理量（命令数）", answer: "スループット" }
+      { question: "Eステージの結果を、Wステージを経ることなく、Eステージに戻すこと", answer: "フォワーディング" },
+      { question: "ハザードを解消するために命令の順番を入れ替えること", answer: "命令スケジューリング" },
+    　{ question: "高速小容量メモリと低速大容量メモリを組み合わせて実質的に高速大容量メモリを実現する技術", answer: "記憶階層" },
+    　{ question: "詳細な機構を意識せずに効率の良いプログラムを書くことができるハードウェアの持つ性質", answer: "透過性" },
+    　{ question: "記憶階層の最上位にある高速小容量のメモリで、CPUと同じ速度で動作", answer: "キャッシュ" },
+    　{ question: "ストア命令実行のたびにキャッシュとメモリの両方にデータを書き込む方式", answer: "ライトスルー方式" },
+    　{ question: "キャッシュライン追い出しの時にメモリにデータを書き込む方式", answer: "ライトバック方式" },
+    　{ question: "ある一つのアドレスが特定の一つのキャッシュラインに対応する方式", answer: "ダイレクトマップ形" },
+    　{ question: "ある一つのアドレスが全部のキャッシュラインに対応する方式", answer: "フルアソシアティブ形" },
+    　{ question: "ある一つのアドレスが特定の複数のキャッシュラインに対応する方式", answer: "セットアソシアティブ形" },
+    　{ question: "主記憶よりも大きなメモリ空間を実現し、複数のプログラムが一つの物理記憶を安全に共有するための技術 ", answer: "仮想記憶" },
+    　{ question: "ページが主記憶に入っていないこと", answer: "ページフォルト" },
+    　{ question: "ページテーブル専用のキャッシュ（英語３文字）", answer: "TLB" },
+    　{ question: "1命令中に複数の演算を入れて、複数の演算器により並列実行する", answer: "VLIW" },
+    　{ question: "逐次プログラムを並列実行する", answer: "スーパースカラ" },
+    　{ question: "プロセッサを効率良く動かすために、あらかじめ機械語プログラムを最適化しておくこと", answer: "静的最適化" },
+    　{ question: "定数回のループを展開して分岐命令を無くしたり、データ依存関係を解消したりするコンパイラ技術", answer: "ループアンローリング" },
+    　{ question: "繰り返しの境界を越えて命令を移動し、データ依存関係を解消するコンパイラ技術", answer: "ソフトウェアパイプライニング" },
+    　{ question: "分岐予測をして複数の基本ブロックを統合し、制御依存を減らす方法", answer: "トレーススケジューリング" },
+    　{ question: "レジスタ番号の置き換えによって、逆依存、出力依存をなくし、並列性を向上させる手法", answer: "レジスタリネーミング" },
+    　{ question: "命令にあらわれる論理レジスタアドレスを物理レジスタアドレスに変換する", answer: "マッピングテーブル" },
+    　{ question: "連想機構をもつメモリによってレジスタリネーミングを実現する機構", answer: "リオーダバッファ" },
+    　{ question: "単位時間に終了する処理量（命令数）", answer: "スループット" }
+      // 他の問題は省略しましたが、あなたのリストをここに入れてください。
     ];
 
     let currentQuestionIndex = 0;
     let shuffledQuestions = [];
     let score = 0;
+    let incorrectAnswers = [];
 
     const startContainer = document.getElementById("start-container");
     const quizContainer = document.getElementById("quiz-container");
@@ -91,6 +95,7 @@
     const feedbackElement = document.getElementById("feedback");
     const nextButton = document.getElementById("next-button");
     const resultElement = document.getElementById("result");
+    const incorrectQuestionsList = document.getElementById("incorrect-questions");
 
     document.getElementById("start-button").addEventListener("click", startQuiz);
     document.getElementById("submit-button").addEventListener("click", checkAnswer);
@@ -101,6 +106,7 @@
       shuffledQuestions = questions.sort(() => Math.random() - 0.5);
       currentQuestionIndex = 0;
       score = 0;
+      incorrectAnswers = [];
       startContainer.style.display = "none";
       quizContainer.style.display = "block";
       loadQuestion();
@@ -121,6 +127,10 @@
         score++;
       } else {
         feedbackElement.textContent = `不正解だ。正しい答えは${correctAnswer}だ。`;
+        incorrectAnswers.push({
+          question: shuffledQuestions[currentQuestionIndex].question,
+          correctAnswer: correctAnswer,
+        });
       }
       feedbackElement.classList.remove("hidden");
       nextButton.classList.remove("hidden");
@@ -138,7 +148,19 @@
     function showResults() {
       quizContainer.style.display = "none";
       resultContainer.classList.remove("hidden");
-      resultElement.textContent = ` ${shuffledQuestions.length}点中${score}点でした！`;
+      resultElement.textContent = `${shuffledQuestions.length}点中${score}点でした！`;
+
+      // 間違えた問題のリストを生成
+      incorrectQuestionsList.innerHTML = "";
+      if (incorrectAnswers.length > 0) {
+        incorrectAnswers.forEach((item) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = `問題: ${item.question} - 答え: ${item.correctAnswer}`;
+          incorrectQuestionsList.appendChild(listItem);
+        });
+      } else {
+        incorrectQuestionsList.textContent = "すべて正解！おめでとう！";
+      }
     }
 
     function restartQuiz() {
